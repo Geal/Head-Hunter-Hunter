@@ -26,3 +26,5 @@ gem "nifty-generators", :group => :development
 gem 'twitter-bootstrap-rails'
 
 gem 'pg', :group => :production
+gem 'devise'
+gem "oauth-plugin", ">= 0.4.0.pre1"
