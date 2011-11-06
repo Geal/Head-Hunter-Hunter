@@ -5,6 +5,29 @@
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <script src="http://cdn.viadeo.com/javascript/sdk.js"></script> 
+  <script>  
+    VD.init({  
+        apiKey: 'testheadhuntervMNxVC',  
+        status: true,   // check login status  
+        cookie: true   // enable cookies to allow the server to access the session  
+    });
+    var logged_in = false;
+    function start() {
+    VD.getLoginStatus(function(response) {  
+        if (response.session) {  
+            // logged in and connected user, someone you know  
+          logged_in = true;
+          $('#login').hide();
+          $('#logout').show();
+        } else {
+            $('#login').show();
+            $('#logout').hide();
+            // no user session available, someone you dont know  
+        }  
+    });
+    }
+  </script>  
 </head>
 <body>
     <div class="topbar">
@@ -16,6 +39,11 @@
             <li class="active"><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/team">Team</a></li>
+            <li><a id="login" href="#" onclick="VD.login(); return false">Login</a></li>
+            <li><a id="logout" href="#" onclick="VD.logout(); return false">Logout</a></li>
+            <li><a href="#" onclick="VD.api('/me/inbox', function(response) {  
+                            console.log('Hello ' + response.data[0].message);  
+                                }); return false">test request</a></li>
           </ul>
         </div>
       </div>
@@ -30,6 +58,8 @@
       </footer>
 
     </div> <!-- /container -->
-
+<script type="text/javascript">
+  start();
+</script>
 </body>
 </html>
